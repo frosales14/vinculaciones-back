@@ -39,7 +39,7 @@ export class VinculacionService {
         .populate('students', 'name contact_phone');
     } else {
       vinculaciones = await this.vinculacionModel
-        .find()
+        .find({ state: 'En Planeacion' })
         .populate('students', '_id');
     }
 
@@ -84,6 +84,14 @@ export class VinculacionService {
     const vinculaciones = await this.vinculacionModel.find({
       students: studentId,
     });
+
+    return vinculaciones;
+  }
+
+  async findVinculacionesXState() {
+    const vinculaciones = await this.vinculacionModel.aggregate([
+      { $group: { _id: '$state', total: { $sum: 1 } } },
+    ]);
 
     return vinculaciones;
   }

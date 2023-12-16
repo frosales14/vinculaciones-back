@@ -58,6 +58,12 @@ export class VinculacionController {
   }
 
   @UseGuards(AuthGuard)
+  @Get('dashboard/vinculacionesXState')
+  getVinculacionesXState() {
+    return this.vinculacionService.findVinculacionesXState();
+  }
+
+  @UseGuards(AuthGuard)
   @Patch('/update/students/:id/:studentId')
   updateStudents(
     @Param('id') id: string,
